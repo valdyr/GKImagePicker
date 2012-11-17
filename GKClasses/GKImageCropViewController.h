@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FOFilterManager.h"
 
 @protocol GKImageCropControllerDelegate;
 
-@interface GKImageCropViewController : UIViewController{
+@interface GKImageCropViewController : UIViewController <FOFiltersApplication>
+{
     UIImage *_croppedImage;
 }
 

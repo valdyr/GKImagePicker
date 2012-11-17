@@ -44,26 +44,26 @@
     CGFloat height = CGRectGetHeight(self.frame);
     
     CGFloat heightSpan = floor(height / 2 - self.cropSize.height / 2);
-    CGFloat widthSpan = floor(width / 2 - self.cropSize.width  / 2);
+    CGFloat widthSpan = floor(width / 2 - self.cropSize.width / 2);
     
     //fill outer rect
-    [[UIColor colorWithRed:0. green:0. blue:0. alpha:0.5] set];
+    [[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.5f] set];
     UIRectFill(self.bounds);
     
     //fill inner border
-    [[UIColor colorWithRed:1. green:1. blue:1. alpha:0.5] set];
-    UIRectFrame(CGRectMake(widthSpan - 2, heightSpan - 2, self.cropSize.width + 4, self.cropSize.height + 4));
+    [[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f] set];
+    UIRectFrame(CGRectMake(widthSpan, heightSpan, self.cropSize.width, self.cropSize.height));
     
     //fill inner rect
     [[UIColor clearColor] set];
-    UIRectFill(CGRectMake(widthSpan, heightSpan, self.cropSize.width, self.cropSize.height));
+    UIRectFill(CGRectMake(widthSpan + 1, heightSpan + 1, self.cropSize.width - 2, self.cropSize.height - 2));
     
     
     
     if (heightSpan > 30 && (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)) {
         
         [[UIColor whiteColor] set];
-        [NSLocalizedString(@"GKImoveAndScale", @"") drawInRect:CGRectMake(10, (height - heightSpan) + (heightSpan / 2 - 20 / 2) , width - 20, 20) 
+        [NSLocalizedString(@"fo.croptitle", nil) drawInRect:CGRectMake(10, (height - heightSpan) + (heightSpan / 2 - 20 / 2) , width - 20, 20)
                                                    withFont:[UIFont boldSystemFontOfSize:20] 
                                               lineBreakMode:UILineBreakModeTailTruncation 
                                                   alignment:UITextAlignmentCenter];
