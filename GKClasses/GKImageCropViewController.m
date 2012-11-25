@@ -41,8 +41,16 @@ const int kToolbarHeight = 53;
 #pragma Private Methods
 
 
-- (void)_actionCancel{
-    [self.navigationController popViewControllerAnimated:YES];
+- (void)_actionCancel
+{
+   if (!self.navigationController)
+   {
+      [self dismissModalViewControllerAnimated:NO];
+   }
+   else
+   {
+      [self.navigationController popViewControllerAnimated:YES];
+   }
 }
 
 
