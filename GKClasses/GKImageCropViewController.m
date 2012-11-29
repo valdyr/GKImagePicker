@@ -45,7 +45,29 @@ const int kToolbarHeight = 53;
 {
    if (!self.navigationController)
    {
-      [self dismissModalViewControllerAnimated:NO];
+      UIView *shadowView = [[UIView alloc] initWithFrame:self.view.bounds];
+      shadowView.backgroundColor = [UIColor blackColor];
+
+      [self.view.window addSubview:shadowView];
+      
+      UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 53.0f, 320.0f, 320.0f)];
+      imageView.contentMode = UIViewContentModeScaleAspectFit;
+      imageView.image = sourceImage;
+      
+      [self.view.window addSubview:imageView];
+      
+      [UIView animateWithDuration:0.4f animations:^{
+         
+         shadowView.alpha = 0.0f;
+         imageView.frame = _zoomOutFrame;
+         [self dismissModalViewControllerAnimated:NO];
+         
+      } completion:^(BOOL finished) {
+         
+         [shadowView removeFromSuperview];
+         [imageView removeFromSuperview];
+         
+      }];
    }
    else
    {
