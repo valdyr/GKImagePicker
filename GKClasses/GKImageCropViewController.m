@@ -35,7 +35,7 @@ const int kToolbarHeight = 53;
 @synthesize sourceImage, cropSize, delegate;
 @synthesize imageCropView;
 @synthesize toolbar;
-@synthesize cancelButton, useButton;
+@synthesize cancelButton, useButton, resizeableCropArea;
 
 #pragma mark -
 #pragma Private Methods
@@ -107,8 +107,8 @@ const int kToolbarHeight = 53;
 {
     self.imageCropView = [[GKImageCropView alloc] initWithFrame:self.view.bounds];
     [self.imageCropView setImageToCrop:sourceImage];
+    [self.imageCropView setResizableCropArea:self.resizeableCropArea];
     [self.imageCropView setCropSize:cropSize];
-    
     [self.view addSubview:self.imageCropView];
 }
 
@@ -160,7 +160,9 @@ const int kToolbarHeight = 53;
     
     CGContextDrawLinearGradient(ctx, gradient, CGPointMake(0, 0), CGPointMake(0, kToolbarHeight), kCGImageAlphaNoneSkipFirst);
     
-    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();   
+    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+	
+	CGGradientRelease(gradient);
     UIGraphicsEndImageContext();
     
     return viewImage;
@@ -209,22 +211,24 @@ const int kToolbarHeight = 53;
     return self;
 }
 
-- (void)viewDidLoad
-{
-   [super viewDidLoad];
-   // Do any additional setup after loading the view.
-   
-   [self _setupNavigationBar];
-   [self _setupCropView];
-   [self _setupToolbar];
-   
-   // Apply filter if user selected one on camera screen
-   [self applyFilter:self.currentFilterType];
-   
-   if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-   {
-      [self.navigationController setNavigationBarHidden:YES];
-   }
+- (void)viewDidLoad{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    
+    self.title = NSLocalizedString(@"GKIchoosePhoto", @"");
+
+    [self _setupNavigationBar];
+    [self _setupCropView];
+    [self _setupToolbar];
+
+    // Apply filter if user selected one on camera screen
+    [self applyFilter:self.currentFilterType];
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self.navigationController setNavigationBarHidden:YES];
+    } else {
+		[self.navigationController setNavigationBarHidden:NO];
+	}
 }
 
 - (void)viewDidUnload{
