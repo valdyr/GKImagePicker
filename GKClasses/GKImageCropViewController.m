@@ -50,8 +50,8 @@ const int kToolbarHeight = 53;
 
       [self.view.window addSubview:shadowView];
       
-      UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 53.0f, 320.0f, 320.0f)];
-      imageView.contentMode = UIViewContentModeScaleAspectFit;
+      UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(40.f, 110.f, 240.0f, 240.0f)];
+      imageView.contentMode = UIViewContentModeScaleAspectFill;
       imageView.image = sourceImage;
       
       [self.view.window addSubview:imageView];
@@ -60,6 +60,7 @@ const int kToolbarHeight = 53;
          
          shadowView.alpha = 0.0f;
          imageView.frame = _zoomOutFrame;
+          imageView.contentMode = UIViewContentModeScaleAspectFill;
          [self dismissModalViewControllerAnimated:NO];
          
       } completion:^(BOOL finished) {
@@ -86,7 +87,13 @@ const int kToolbarHeight = 53;
     }
    
     _croppedImage = [self.imageCropView croppedImage];
-    [self.delegate imageCropController:self didFinishWithCroppedImage:_croppedImage];
+
+
+    __weak GKImageCropViewController *weakSelf = self;
+    [self dismissViewControllerAnimated:YES completion:^{
+        [weakSelf.delegate imageCropController:weakSelf
+                     didFinishWithCroppedImage:_croppedImage];
+    }];
 }
 
 
